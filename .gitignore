@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+
+.nx/cache
+.nx/workspace-data
+
+storybook-static
