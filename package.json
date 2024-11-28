@@ -13,6 +13,9 @@
     "test": "jest --passWithNoTests",
     "story:dev": "storybook dev -p 9009"
   },
+  "lint-staged": {
+    "*.{ts,tsx}": "npm run fix:lint"
+  },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
@@ -40,6 +43,7 @@
     "globals": "^15.12.0",
     "husky": "^9.1.7",
     "jest": "^29.7.0",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "storybook": "^8.4.5",
     "ts-node": "10.9.1",
