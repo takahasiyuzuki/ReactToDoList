@@ -14,7 +14,10 @@
     "story:dev": "storybook dev -p 9009"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "npm run fix:lint"
+    "*.{ts,tsx}": [
+      "eslint --cache --fix -c .eslintrc.json",
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "react": "^18.3.1",
