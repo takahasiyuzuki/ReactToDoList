@@ -27,5 +27,6 @@ dist-ssr
 
 .nx/cache
 .nx/workspace-data
+.eslintcache
 
 storybook-static
