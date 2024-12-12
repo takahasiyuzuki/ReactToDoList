@@ -15,9 +15,10 @@ export function InputField() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isValid }
   } = useForm<FormData>({
-    resolver: zodResolver(schema)
+    resolver: zodResolver(schema),
+    mode: 'onChange'
   })
 
   const onSubmit = (data: FormData) => {
@@ -31,7 +32,7 @@ export function InputField() {
         <Input id="task" placeholder="タスクを追加する" {...register('task')} />
         {errors.task && <p style={{ color: 'red' }}>{errors.task.message}</p>}
       </div>
-      <Button size="lg" className="mt-3">
+      <Button size="lg" className="mt-3" disabled={!isValid}>
         追加
       </Button>
     </form>
