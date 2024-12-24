@@ -11,10 +11,15 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-export function InputField() {
+type InputFieldProps = {
+  addTask: (task: string) => void
+}
+
+export function InputField({ addTask }: InputFieldProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid }
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -22,7 +27,8 @@ export function InputField() {
   })
 
   const onSubmit = (data: FormData) => {
-    console.log('送信データ:', data)
+    addTask(data.task)
+    reset()
   }
 
   return (
@@ -32,9 +38,11 @@ export function InputField() {
         <Input id="task" placeholder="タスクを追加する" {...register('task')} />
         {errors.task && <p style={{ color: 'red' }}>{errors.task.message}</p>}
       </div>
-      <Button size="lg" className="mt-3" disabled={!isValid}>
+      <Button size="lg" className="mt-2 mb-5" disabled={!isValid}>
         追加
       </Button>
     </form>
   )
 }
+
+export default InputField
