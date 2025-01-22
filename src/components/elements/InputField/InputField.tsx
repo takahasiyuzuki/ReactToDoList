@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 
 const schema = z.object({
@@ -33,14 +32,15 @@ export function InputField({ addTask }: InputFieldProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <Label htmlFor="task">入力欄</Label>
-        <Input id="task" placeholder="タスクを追加する" {...register('task')} />
-        {errors.task && <p style={{ color: 'red' }}>{errors.task.message}</p>}
+      <div className="mb-4">
+        <div className="flex space-x-2">
+          <Input id="task" placeholder="タスクを追加する" {...register('task')} />
+          <Button size="lg" disabled={!isValid}>
+            追加
+          </Button>
+        </div>
+        {errors.task && <p className="text-left text-red-500 mt-1">{errors.task.message}</p>}
       </div>
-      <Button size="lg" className="mt-2 mb-5" disabled={!isValid}>
-        追加
-      </Button>
     </form>
   )
 }
