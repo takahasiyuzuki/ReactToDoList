@@ -15,12 +15,12 @@ export function List() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts?_start=0&_limit=10')
         if (!response.ok) {
           throw new Error(`Failed to fetch tasks: ${response.status}`)
         }
         const data = await response.json()
-        setTasks(data.slice(0, 10))
+        setTasks(data)
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message)
@@ -29,7 +29,6 @@ export function List() {
         }
       }
     }
-
     fetchTasks()
   }, [])
 
