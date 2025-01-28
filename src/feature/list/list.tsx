@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { InputField } from '@/components/elements/InputField'
 import { TaskCheckbox } from '@/components/elements/taskCheckbox'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { MdDeleteForever } from 'react-icons/md'
 
 type Task = {
   id: number
@@ -12,7 +13,7 @@ export function List() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  useMemo(() => {
     const fetchTasks = async () => {
       try {
         const response = await fetch('https://jsonplaceholder.typicode.com/posts?_start=0&_limit=10')
@@ -62,6 +63,26 @@ export function List() {
     }
   }
 
+  const deleteTask = async (taskId: number) => {
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${taskId}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete task: ${response.status}`)
+      }
+
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError('An unknown error occurred')
+      }
+    }
+  }
+
   return (
     <div className="flex justify-center items-center min-h-screen">
       <Card className="w-[500px]">
@@ -72,7 +93,12 @@ export function List() {
           <InputField addTask={addTask} />
           {error && <p className="text-red-500">Error: {error}</p>}
           {tasks.map((task) => (
-            <TaskCheckbox key={task.id} task={task.title} />
+            <div key={task.id} className="flex justify-between items-center">
+              <TaskCheckbox task={task.title} />
+              <button onClick={() => deleteTask(task.id)}>
+                <MdDeleteForever color="red" />
+              </button>
+            </div>
           ))}
         </CardContent>
       </Card>
